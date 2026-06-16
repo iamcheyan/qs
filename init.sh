@@ -85,6 +85,15 @@ resolve_pkg() {
 		mako)
 			is_ubuntu && echo "mako-notifier" || echo "mako"
 			;;
+		swaync|swaync-client)
+			is_fedora && echo "SwayNotificationCenter" || echo "swaync"
+			;;
+		nwg-look)
+			if is_fedora; then
+				sudo dnf copr enable -y tofik/nwg-shell >&2 || true
+			fi
+			echo "nwg-look"
+			;;
 		vim)
 			is_ubuntu && echo "vim" || echo "vim-enhanced"
 			;;
