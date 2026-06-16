@@ -13,10 +13,10 @@
 
     <!-- 窗口管理 -->
     <keybind key="W-Tab">
-      <action name="NextWindow" />
+      <action name="NextWindow" output="cursor" />
     </keybind>
     <keybind key="W-S-Tab">
-      <action name="PreviousWindow" />
+      <action name="PreviousWindow" output="cursor" />
     </keybind>
     <keybind key="W-q">
       <action name="Close" />
