@@ -10,7 +10,8 @@
         // "wlr/taskbar"
     ],
     "modules-center": [
-        "clock"
+        "clock",
+        "custom/notification"
     ],
     "modules-right": [
         "tray",
@@ -21,8 +22,7 @@
         "bluetooth",
         "cpu",
         "memory",
-        "custom/power",
-        "custom/notification"
+        "custom/power"
     ],
     "tray": {
         "spacing": 8,
