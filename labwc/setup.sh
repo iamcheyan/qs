@@ -207,23 +207,23 @@ for item in "${ICON_LIST[@]}"; do
     fi
 done
 
-echo "设置 GTK 图标主题为 Cosmic..."
+echo "设置 GTK 图标主题为 breeze-dark..."
 mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
 for version in 3.0 4.0; do
     SETTINGS_FILE="$HOME/.config/gtk-$version/settings.ini"
     if [ -f "$SETTINGS_FILE" ]; then
         if grep -q "gtk-icon-theme-name" "$SETTINGS_FILE"; then
-            sed -i 's/gtk-icon-theme-name=.*/gtk-icon-theme-name=Cosmic/g' "$SETTINGS_FILE"
+            sed -i 's/gtk-icon-theme-name=.*/gtk-icon-theme-name=breeze-dark/g' "$SETTINGS_FILE"
         else
-            echo -e "\n[Settings]\ngtk-icon-theme-name=Cosmic" >> "$SETTINGS_FILE"
+            echo -e "\n[Settings]\ngtk-icon-theme-name=breeze-dark" >> "$SETTINGS_FILE"
         fi
     else
-        echo -e "[Settings]\ngtk-icon-theme-name=Cosmic" > "$SETTINGS_FILE"
+        echo -e "[Settings]\ngtk-icon-theme-name=breeze-dark" > "$SETTINGS_FILE"
     fi
 done
 
 if command -v gsettings &>/dev/null; then
-    gsettings set org.gnome.desktop.interface icon-theme "Cosmic" 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface icon-theme "breeze-dark" 2>/dev/null || true
 fi
 echo -e "${GREEN}✓ 图标主题与状态栏图标配置完成${NC}"
 
@@ -314,6 +314,54 @@ for dep in "${DEPS[@]}"; do
 	IFS=':' read -r cmd desc <<<"$dep"
 	ensure_cmd "$cmd" "$desc"
 done
+
+# ========== hyprpicker (取色器，需从源码编译) ==========
+echo ""
+echo "=== 安装 hyprpicker ==="
+if command -v hyprpicker &>/dev/null; then
+	echo "  ${GREEN}✓${NC} hyprpicker 已安装"
+else
+	echo "  安装编译依赖..."
+	if is_fedora; then
+		HYPRPICKER_BUILD_DEPS=(
+			cmake gcc-c++ hyprutils-devel hyprwayland-scanner-devel
+			wayland-devel wayland-protocols-devel libxkbcommon-devel
+			cairo-devel pango-devel libjpeg-turbo-devel
+		)
+	elif is_ubuntu; then
+		HYPRPICKER_BUILD_DEPS=(
+			cmake g++ hyprutils-dev hyprwayland-scanner
+			libwayland-dev wayland-protocols libxkbcommon-dev
+			libcairo2-dev libpango1.0-dev libjpeg-dev
+		)
+	elif is_arch; then
+		HYPRPICKER_BUILD_DEPS=(
+			cmake gcc hyprutils hyprwayland-scanner
+			wayland wayland-protocols libxkbcommon
+			cairo pango libjpeg-turbo
+		)
+	fi
+	for pkg in "${HYPRPICKER_BUILD_DEPS[@]}"; do
+		set +e
+		pkg_install "$pkg"
+		set -e
+	done
+	echo "  克隆 hyprpicker 源码..."
+	HYPRPICKER_TMP=$(mktemp -d)
+	git clone --depth 1 https://github.com/hyprwm/hyprpicker.git "$HYPRPICKER_TMP"
+	echo "  编译 hyprpicker..."
+	cd "$HYPRPICKER_TMP"
+	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -B build
+	cmake --build build -j"$(nproc)"
+	sudo cmake --install build
+	cd "$TWM_DIR"
+	rm -rf "$HYPRPICKER_TMP"
+	if command -v hyprpicker &>/dev/null; then
+		echo -e "  ${GREEN}✓${NC} hyprpicker 编译安装完成"
+	else
+		echo -e "  ${YELLOW}⚠${NC} hyprpicker 安装失败，请手动编译: https://github.com/hyprwm/hyprpicker"
+	fi
+fi
 
 # ========== cliphist ==========
 echo ""

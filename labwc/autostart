@@ -82,6 +82,6 @@ fi
 # Apply GTK theme via gsettings for better client consistency (if schema exists)
 if command -v gsettings >/dev/null 2>&1; then
     gsettings set org.gnome.desktop.interface gtk-theme 'BL-Lithium-dark' 2>/dev/null || true
-    gsettings set org.gnome.desktop.interface icon-theme 'Adwaita' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface icon-theme 'breeze-dark' 2>/dev/null || true
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
 fi
