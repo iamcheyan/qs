@@ -133,6 +133,7 @@ CONFIG_DIRS=(
 	"$TWM_DIR/polybar:$HOME/.config/polybar"
 	"$TWM_DIR/cliphist:$HOME/.config/cliphist"
 	"$TWM_DIR/waybar/scripts:$HOME/.config/waybar/scripts"
+	"$TWM_DIR/swaync:$HOME/.config/swaync"
 	"$TWM_DIR/labwc/scripts/save-displays:$HOME/.local/bin/save-displays"
 )
 
