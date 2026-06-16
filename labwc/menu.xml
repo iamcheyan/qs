@@ -62,6 +62,10 @@
   </menu>
 
   <menu id="display-menu" label="Display">
+    <item label="Display Arrangement (wdisplays)">
+      <action name="Execute" command="wdisplays" />
+    </item>
+    <separator />
     <menu id="scale-menu" label="Scale"
       execute="~/.config/labwc/scripts/scale-menu" />
     <item label="Display Info">
