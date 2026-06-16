@@ -17,6 +17,31 @@ NC='\033[0m'
 TWM_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo -e "${BLUE}TWM 配置目录: ${TWM_DIR}${NC}"
 
+# ========== dotfiles 软链接 ==========
+if [ -d "$HOME/dotfiles" ]; then
+	DOTFILES_TWM="$HOME/dotfiles/TWM"
+	TWM_CONFIG="$HOME/.config/TWM"
+
+	# 已经是正确指向 dotfiles 的软链接，跳过
+	if [ -L "$TWM_CONFIG" ] && [ "$(readlink -f "$TWM_CONFIG")" = "$(readlink -f "$DOTFILES_TWM")" ]; then
+		echo -e "${GREEN}✓ $TWM_CONFIG 已指向 ~/dotfiles/TWM${NC}"
+	else
+		# 把现有真实目录移到 dotfiles
+		if [ -d "$TWM_CONFIG" ] && [ ! -L "$TWM_CONFIG" ]; then
+			mkdir -p "$(dirname "$DOTFILES_TWM")"
+			mv "$TWM_CONFIG" "$DOTFILES_TWM"
+			echo "已移动 $TWM_CONFIG → $DOTFILES_TWM"
+		fi
+		# 确保 dotfiles/TWM 存在后创建软链接
+		mkdir -p "$DOTFILES_TWM"
+		ln -snf "$DOTFILES_TWM" "$TWM_CONFIG"
+		echo -e "${GREEN}✓ 已创建软链接: $TWM_CONFIG → $DOTFILES_TWM${NC}"
+	fi
+
+	# TWM_DIR 更新为真实路径（后续脚本使用）
+	TWM_DIR="$(readlink -f "$TWM_CONFIG")"
+fi
+
 # ========== 系统检测 ==========
 detect_os() {
 	if [ -f /etc/os-release ]; then
@@ -99,6 +124,7 @@ CONFIG_DIRS=(
 	"$TWM_DIR/polybar:$HOME/.config/polybar"
 	"$TWM_DIR/cliphist:$HOME/.config/cliphist"
 	"$TWM_DIR/waybar/scripts:$HOME/.config/waybar/scripts"
+	"$TWM_DIR/labwc/scripts/save-displays:$HOME/.local/bin/save-displays"
 )
 
 create_symlink() {
@@ -171,6 +197,42 @@ else
 	echo -e "${GREEN}✓ Open Sans 字体安装完成${NC}"
 fi
 
+# ========== 安装 Ubuntu 字体 ==========
+echo ""
+echo "=== 安装 Ubuntu 字体 ==="
+if fc-list : family | grep -qi "^Ubuntu$"; then
+	echo "✓ Ubuntu 字体已安装"
+else
+	echo "开始下载 Ubuntu 字体..."
+	mkdir -p "$FONT_DIR"
+	UBUNTU_FONT_URL="https://github.com/canonical/Ubuntu-font-family/raw/master/Ubuntu-R.ttf"
+	for style_suffix in "-R" "-RI" "-B" "-BI"; do
+		filename="Ubuntu${style_suffix}.ttf"
+		[ -f "$FONT_DIR/$filename" ] || curl -fLo "$FONT_DIR/$filename" \
+			"https://github.com/canonical/Ubuntu-font-family/raw/master/${filename}"
+	done
+	fc-cache -f "$FONT_DIR"
+	echo -e "${GREEN}✓ Ubuntu 字体安装完成${NC}"
+fi
+
+# ========== 安装 Ubuntu Nerd Font ==========
+echo ""
+echo "=== 安装 Ubuntu Nerd Font ==="
+if fc-list : family | grep -qi "Ubuntu Nerd Font"; then
+	echo "✓ Ubuntu Nerd Font 已安装"
+else
+	echo "开始下载 Ubuntu Nerd Font..."
+	mkdir -p "$FONT_DIR"
+	NERD_FONT_VER="3.4.0"
+	NERD_FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONT_VER}/Ubuntu.zip"
+	NERD_FONT_TMP=$(mktemp -d)
+	curl -fLo "$NERD_FONT_TMP/Ubuntu.zip" "$NERD_FONT_URL"
+	unzip -o "$NERD_FONT_TMP/Ubuntu.zip" -d "$FONT_DIR" >/dev/null 2>&1
+	rm -rf "$NERD_FONT_TMP"
+	fc-cache -f "$FONT_DIR"
+	echo -e "${GREEN}✓ Ubuntu Nerd Font 安装完成${NC}"
+fi
+
 # ========== 询问 WM 选择 ==========
 echo ""
 echo "选择要安装的窗口管理器:"
@@ -194,6 +256,9 @@ COMMON_DEPS=(
 	"wl-copy:剪贴板管理"
 	"wtype:模拟键盘输入"
 	"fcitx5:输入法"
+	"wdisplays:图形化显示器配置"
+	"kanshi:多显示器自动配置"
+	"wlr-randr:命令行显示器配置"
 )
 
 # ========== i3 专属依赖 ==========
