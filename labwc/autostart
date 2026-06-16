@@ -35,7 +35,9 @@ is_wsl() {
 # Wallpaper, bar, notifications, clipboard history: useful for both native and
 # nested labwc (the inner session still wants its own UI).
 "$HOME/.config/TWM/set-wallpaper" wayland >/dev/null 2>&1 &
-mako >/dev/null 2>&1 &
+swaync >/dev/null 2>&1 &
+nm-applet --indicator >/dev/null 2>&1 &
+kanshi >/dev/null 2>&1 &
 "$HOME/.config/labwc/scripts/waybar" \
 	>"${XDG_RUNTIME_DIR:-/tmp}/waybar-labwc.log" 2>&1 &
 command -v cliphist >/dev/null && {

@@ -77,6 +77,10 @@
     execute="~/.config/labwc/scripts/keyboard-menu" />
 
   <menu id="appearance-menu" label="Appearance">
+    <item label="Appearance (nwg-look)...">
+      <action name="Execute" command="nwg-look" />
+    </item>
+    <separator />
     <item label="Wallpaper...">
       <action name="Execute" command="~/.config/labwc/scripts/wallpaper" />
     </item>
