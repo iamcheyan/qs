@@ -31,7 +31,7 @@ find_labwc() {
         printf '%s\n' "$LABWC_PID"
         return 0
     fi
-    _pid=$(pgrep -n -x labwc-dev 2>/dev/null || pgrep -n -x labwc 2>/dev/null)
+    _pid=$(pgrep -n -x labwc-dev 2>/dev/null || pgrep -n -x labwc-plus 2>/dev/null || pgrep -n -x labwc 2>/dev/null)
     if [ -n "$_pid" ]; then
         printf '%s\n' "$_pid"
         return 0

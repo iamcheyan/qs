@@ -3,6 +3,22 @@
 # WSL detection added so native-only or host-specific daemons can be skipped
 # when running as nested compositor via wsl-boot (or inside WSL distro).
 
+# Make session environment visible to D-Bus/systemd activated apps as well.
+# This keeps KDE/Qt helpers on the same Breeze Dark theme when launched from
+# portals, services, or file associations.
+if command -v dbus-update-activation-environment >/dev/null 2>&1; then
+    dbus-update-activation-environment --systemd \
+        WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE \
+        QT_QPA_PLATFORMTHEME GTK_THEME XCURSOR_SIZE \
+        >/dev/null 2>&1 || true
+fi
+if command -v systemctl >/dev/null 2>&1; then
+    systemctl --user import-environment \
+        WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE \
+        QT_QPA_PLATFORMTHEME GTK_THEME XCURSOR_SIZE \
+        >/dev/null 2>&1 || true
+fi
+
 is_wsl() {
     [ -n "${WSL_DISTRO_NAME:-}" ] && return 0
     [ -n "${WSL_INTEROP:-}" ] && return 0

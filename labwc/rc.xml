@@ -9,7 +9,7 @@
   <theme>
     <name>BL-Lithium-dark</name>
     <cornerRadius>0</cornerRadius>
-    <maximizedDecoration>none</maximizedDecoration>
+    <!-- <maximizedDecoration>none</maximizedDecoration> -->
 
     <font place="ActiveWindow" name="MesloLGS NF" size="9" />
     <font place="InactiveWindow" name="MesloLGS NF" size="9" />
