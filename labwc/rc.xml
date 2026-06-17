@@ -11,13 +11,13 @@
     <cornerRadius>0</cornerRadius>
     <maximizedDecoration>none</maximizedDecoration>
 
-    <font place="ActiveWindow" name="MesloLGS Nerd Font Mono" size="9" />
-    <font place="InactiveWindow" name="MesloLGS Nerd Font Mono" size="9" />
-    <font place="MenuHeader" name="MesloLGS Nerd Font Mono" size="9" />
-    <font place="MenuItem" name="MesloLGS Nerd Font Mono" size="9" />
+    <font place="ActiveWindow" name="MesloLGS NF" size="9" />
+    <font place="InactiveWindow" name="MesloLGS NF" size="9" />
+    <font place="MenuHeader" name="MesloLGS NF" size="9" />
+    <font place="MenuItem" name="MesloLGS NF" size="9" />
 
     <font place="OnScreenDisplay">
-      <name>MesloLGS Nerd Font Mono</name>
+      <name>MesloLGS NF</name>
       <size>11</size>
       <weight>normal</weight>
     </font>

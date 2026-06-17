@@ -15,7 +15,7 @@
 /* ── Reset ─────────────────────────────────────────────── */
 * {
     all:          unset;
-    font-family:  "MesloLGS Nerd Font Mono", "Ubuntu Nerd Font", "Noto Sans CJK SC", sans-serif;
+    font-family:  "MesloLGS NF", "Ubuntu Nerd Font", "Noto Sans CJK SC", sans-serif;
     font-size:    13px;
     color:        @text;
     background-color: transparent;

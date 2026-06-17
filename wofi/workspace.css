@@ -8,7 +8,7 @@
 
 * {
     all: unset;
-    font-family: "MesloLGS Nerd Font Mono", sans-serif;
+    font-family: "MesloLGS NF", sans-serif;
     font-size: 13px;
     color: @ws_text;
     background-color: transparent;
