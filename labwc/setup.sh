@@ -63,6 +63,9 @@ resolve_pkg() {
 		plasma-integration)
 			echo "plasma-integration"
 			;;
+		quickshell)
+			echo "quickshell"
+			;;
 		qt6-qtwayland)
 			is_ubuntu && echo "qt6-wayland" && return
 			is_arch && echo "qt6-wayland" && return
@@ -131,6 +134,7 @@ create_symlink() {
 LABWC_SYMLINKS=(
 	"$TWM_DIR/labwc:$HOME/.config/labwc"
 	"$TWM_DIR/labwc/scripts:$HOME/.config/labwc/scripts"
+	"$TWM_DIR/qs:$HOME/.config/quickshell/labwc"
 )
 
 for config in "${LABWC_SYMLINKS[@]}"; do
@@ -284,7 +288,6 @@ COMMON_DEPS=(
 )
 
 LABWC_DEPS=(
-	"waybar:状态栏"
 	"brightnessctl:亮度控制"
 	"wlr-randr:输出缩放"
 	"qutebrowser:Web 浏览器"
@@ -298,6 +301,7 @@ LABWC_DEPS=(
 	"fuzzel:应用启动器 (脚本依赖)"
 	"bc:计算器 (firefox-hidpi)"
 	"swaybg:壁纸管理器"
+	"quickshell:QtQuick 桌面 Shell / 状态栏"
 	"plasma-integration:KDE/Qt 平台主题集成"
 	"qt6-qtwayland:Qt6 Wayland 支持"
 	"qt5-qtwayland:Qt5 Wayland 支持"

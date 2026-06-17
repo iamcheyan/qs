@@ -50,13 +50,13 @@ cat > "$rc_file" << HEADER
     <cornerRadius>0</cornerRadius>
     <maximizedDecoration>none</maximizedDecoration>
 
-    <font place="ActiveWindow" name="MesloLGS NF" size="9" />
-    <font place="InactiveWindow" name="MesloLGS NF" size="9" />
-    <font place="MenuHeader" name="MesloLGS NF" size="9" />
-    <font place="MenuItem" name="MesloLGS NF" size="9" />
+    <font place="ActiveWindow" name="MesloLGS Nerd Font Mono" size="9" />
+    <font place="InactiveWindow" name="MesloLGS Nerd Font Mono" size="9" />
+    <font place="MenuHeader" name="MesloLGS Nerd Font Mono" size="9" />
+    <font place="MenuItem" name="MesloLGS Nerd Font Mono" size="9" />
 
     <font place="OnScreenDisplay">
-      <name>MesloLGS NF</name>
+      <name>MesloLGS Nerd Font Mono</name>
       <size>11</size>
       <weight>normal</weight>
     </font>
@@ -149,6 +149,17 @@ cat >> "$rc_file" << 'FOOTER'
     </keybind>
     <keybind key="XF86MonBrightnessDown">
       <action name="Execute" command="~/.config/labwc/scripts/brightness-control down" />
+    </keybind>
+
+    <!-- 通用: 音量 -->
+    <keybind key="XF86AudioRaiseVolume">
+      <action name="Execute" command="sh -c 'pactl set-sink-volume @DEFAULT_SINK@ +2% && quickshell -p ~/.config/quickshell/labwc ipc call volume-helper triggerUpdate'" />
+    </keybind>
+    <keybind key="XF86AudioLowerVolume">
+      <action name="Execute" command="sh -c 'pactl set-sink-volume @DEFAULT_SINK@ -2% && quickshell -p ~/.config/quickshell/labwc ipc call volume-helper triggerUpdate'" />
+    </keybind>
+    <keybind key="XF86AudioMute">
+      <action name="Execute" command="sh -c 'pactl set-sink-mute @DEFAULT_SINK@ toggle && quickshell -p ~/.config/quickshell/labwc ipc call volume-helper triggerUpdate'" />
     </keybind>
 
   </keyboard>

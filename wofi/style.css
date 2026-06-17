@@ -10,7 +10,7 @@
 
 * {
     all: unset;
-    font-family: "MesloLGS NF", "Ubuntu Nerd Font", sans-serif;
+    font-family: "MesloLGS Nerd Font Mono", "Ubuntu Nerd Font", sans-serif;
     font-size: 14px;
     color: @text;
     background-color: transparent;
