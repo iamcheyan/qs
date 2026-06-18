@@ -197,7 +197,7 @@ for dep in "${deps[@]}"; do
 done
 
 if command -v Hyprland >/dev/null 2>&1; then
-    for pkg in xdg-desktop-portal-hyprland hyprland-plugins hyprland-qt-support; do
+    for pkg in xdg-desktop-portal-hyprland hyprland-plugins hyprland-qt-support hyprland-guiutils; do
         ensure_pkg "$pkg"
     done
 fi
