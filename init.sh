@@ -94,6 +94,7 @@ resolve_pkg() {
 			fi
 			echo "nwg-look"
 			;;
+		Hyprland) echo "hyprland" ;;
 		vim)
 			is_ubuntu && echo "vim" || echo "vim-enhanced"
 			;;
@@ -121,6 +122,7 @@ echo "=== 创建配置软链接 ==="
 
 CONFIG_DIRS=(
 	"$TWM_DIR/niri:$HOME/.config/niri"
+	"$TWM_DIR/hyprland:$HOME/.config/hypr"
 	"$TWM_DIR/waybar:$HOME/.config/waybar"
 	"$TWM_DIR/kitty:$HOME/.config/kitty"
 	"$TWM_DIR/xterm:$HOME/.config/xterm"
@@ -250,8 +252,9 @@ echo "1) i3"
 echo "2) sway"
 echo "3) niri"
 echo "4) labwc"
-echo "5) 全部"
-read -p "请输入 (1-5): " wm_choice
+echo "5) hyprland"
+echo "6) 全部"
+read -p "请输入 (1-6): " wm_choice
 
 # ========== 通用依赖 ==========
 echo ""
@@ -292,7 +295,8 @@ case $wm_choice in
 	2) DEPS+=("sway:窗口管理器") ;;
 	3) DEPS+=("niri:窗口管理器") ;;
 	4) ;; # labwc 依赖由 labwc/setup.sh 独立处理
-	5) DEPS+=("sway:窗口管理器" "niri:窗口管理器" "${I3_DEPS[@]}") ;;
+	5) ;; # Hyprland 依赖由 hyprland/setup.sh 独立处理
+	6) DEPS+=("sway:窗口管理器" "niri:窗口管理器" "${I3_DEPS[@]}") ;;
 esac
 
 for dep in "${DEPS[@]}"; do
@@ -301,10 +305,17 @@ for dep in "${DEPS[@]}"; do
 done
 
 # ========== labwc 初始化 ==========
-if [[ "$wm_choice" =~ ^[45]$ ]]; then
+if [[ "$wm_choice" =~ ^[46]$ ]]; then
 	echo ""
 	echo "=== 初始化 labwc ==="
 	bash "$TWM_DIR/labwc/setup.sh"
+fi
+
+# ========== Hyprland 初始化 ==========
+if [[ "$wm_choice" =~ ^[56]$ ]]; then
+	echo ""
+	echo "=== 初始化 Hyprland ==="
+	bash "$TWM_DIR/hyprland/setup.sh"
 fi
 
 # ========== 完成 ==========
